@@ -1,49 +1,64 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
 namespace Sudoku
 {
     public class Box
     {
-        private readonly char _square1;
-        private readonly char _square2;
-        private readonly char _square3;
-        private readonly char _square4;
-        private readonly char _square5;
-        private readonly char _square6;
-        private readonly char _square7;
-        private readonly char _square8;
-        private readonly char _square9;
+        private readonly int _left;
+        private readonly int _top;
+        private readonly char[,] _squares = new char[3, 3];
 
-        public Box(char square1, char square2, char square3, char square4, char square5, char square6, char square7, char square8, char square9)
+        public Box(int left, int top,
+                   char square1, char square2, char square3,
+                   char square4, char square5, char square6,
+                   char square7, char square8, char square9)
         {
-            _square1 = square1;
-            _square2 = square2;
-            _square3 = square3;
-            _square4 = square4;
-            _square5 = square5;
-            _square6 = square6;
-            _square7 = square7;
-            _square8 = square8;
-            _square9 = square9;
+            _left = left;
+            _top = top;
+            _squares[0, 0] = square1;
+            _squares[1, 0] = square2;
+            _squares[2, 0] = square3;
+            _squares[0, 1] = square4;
+            _squares[1, 1] = square5;
+            _squares[2, 1] = square6;
+            _squares[0, 2] = square7;
+            _squares[1, 2] = square8;
+            _squares[2, 2] = square9;
         }
 
         internal void Write(TextWriter textWriter)
         {
-            textWriter.WriteLine($"{_square1}|{_square2}|{_square3}");
-            textWriter.WriteLine($"{_square4}|{_square4}|{_square6}");
-            textWriter.WriteLine($"{_square7}|{_square8}|{_square9}");
+            for (int row = 0; row < 3; row++)
+                textWriter.WriteLine($"{_squares[0, row]}|{_squares[1, row]}|{_squares[2, row]}");
+        }
+
+        internal IEnumerable<(int columnNumber, int rowNumber)> EmptyCells()
+        {
+            var result = new List<(int column, int row)>();
+
+            for (int column = 0; column < 3; column++)
+            {
+                for (int row = 0; row < 3; row++)
+                {
+                    if (_squares[column, row] == ' ')
+                        result.Add((column + _left, row + _top));
+                }
+            }
+            return result;
         }
 
         internal bool Contains(char digit) =>
-            _square1 == digit ||
-            _square2 == digit ||
-            _square3 == digit ||
-            _square4 == digit ||
-            _square5 == digit ||
-            _square6 == digit ||
-            _square7 == digit ||
-            _square8 == digit ||
-            _square9 == digit;
+            _squares[0, 0] == digit ||
+            _squares[1, 0] == digit ||
+            _squares[2, 0] == digit ||
+            _squares[0, 1] == digit ||
+            _squares[1, 1] == digit ||
+            _squares[2, 1] == digit ||
+            _squares[0, 2] == digit ||
+            _squares[1, 2] == digit ||
+            _squares[2, 2] == digit;
 
+        internal bool DoesNotContain(char digit) => !Contains(digit);
     }
 }

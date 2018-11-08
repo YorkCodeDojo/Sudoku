@@ -7,25 +7,25 @@ namespace Sudoku
     {
         public (bool success, Grid grid, Cell cell) Execute(Grid grid)
         {
-
-            for (int rowNumber = 0; rowNumber < 9; rowNumber++)
+            foreach (var row in grid.Rows())
             {
                 var digitsToFillIn = grid.AllowedDigits
-                                         .Where(digit => !grid.Row(rowNumber).Contains(digit));
+                                         .Where(digit => !row.Contains(digit));
 
                 foreach (var digit in digitsToFillIn)
                 {
-                    var possibleColumns = grid.EmptyCellsInRow(rowNumber)
-                                              .Where(cell => !grid.Column(cell.ColumnNumber).Contains(digit) &&
-                                                             !grid.Box(cell.ColumnNumber, cell.RowNumber).Contains(digit))
-                                              .Select(cell => cell.ColumnNumber);
+                    var possibleColumns = row.EmptyColumns()
+                                              .Where(columnNumber => !grid.Column(columnNumber).Contains(digit) &&
+                                                                     !grid.Box(columnNumber, row.RowNumber).Contains(digit));
 
                     switch (possibleColumns.Count())
                     {
                         case 0:
                             throw new Exception("Grid can't be solved");
                         case 1:
-                            return (true, grid.FillInSquare(possibleColumns.First(), rowNumber, digit), new Cell(possibleColumns.First(), rowNumber));
+                            return (true, 
+                                    grid.FillInSquare(possibleColumns.First(), row.RowNumber, digit),
+                                    new Cell(possibleColumns.First(), row.RowNumber));
                         default:
                             break;
                     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Sudoku
 {
@@ -128,6 +127,22 @@ namespace Sudoku
             return new Grid(newGrid);
         }
 
+        internal IEnumerable<Row> Rows()
+        {
+            for (int row = 0; row < Size; row++)
+            {
+                yield return this.Row(row);
+            }
+        }
+
+        internal IEnumerable<Column> Columns()
+        {
+            for (int column = 0; column < Size; column++)
+            {
+                yield return this.Column(column);
+            }
+        }
+
         internal IEnumerable<Cell> EmptyCells()
         {
             for (int row = 0; row < Size; row++)
@@ -143,26 +158,19 @@ namespace Sudoku
         }
 
 
-        internal IEnumerable<Cell> EmptyCellsInRow(int rowNumber)
+        internal IEnumerable<Box> Boxes()
         {
-            for (int column = 0; column < Size; column++)
-            {
-                if (Squares[column, rowNumber] == ' ')
-                {
-                    yield return new Cell(column, rowNumber);
-                }
-            }
-        }
+            yield return this.Box(0, 0);
+            yield return this.Box(3, 0);
+            yield return this.Box(6, 0);
 
-        internal IEnumerable<Cell> EmptyCellsInColumn(int columnNumber)
-        {
-            for (int row = 0; row < Size; row++)
-            {
-                if (Squares[columnNumber, row] == ' ')
-                {
-                    yield return new Cell(columnNumber, row);
-                }
-            }
+            yield return this.Box(0, 3);
+            yield return this.Box(3, 3);
+            yield return this.Box(6, 3);
+
+            yield return this.Box(0, 6);
+            yield return this.Box(3, 6);
+            yield return this.Box(6, 6);
         }
 
         public Box Box(int columnNumber, int rowNumber)
@@ -192,6 +200,8 @@ namespace Sudoku
 
             return new Box
             (
+                firstColumn,
+                firstRow,
                 Squares[firstColumn, firstRow],
                 Squares[firstColumn + 1, firstRow],
                 Squares[firstColumn + 2, firstRow],
@@ -204,12 +214,13 @@ namespace Sudoku
             );
         }
 
-        public Line Row(int rowNumber)
+        public Row Row(int rowNumber)
         {
             if (rowNumber < 0 || rowNumber >= Size) throw new ArgumentOutOfRangeException(nameof(rowNumber));
 
-            return new Line
+            return new Row
             (
+                rowNumber,
                 Squares[0, rowNumber],
                 Squares[1, rowNumber],
                 Squares[2, rowNumber],
@@ -222,12 +233,13 @@ namespace Sudoku
             );
         }
 
-        public Line Column(int columnNumber)
+        public Column Column(int columnNumber)
         {
             if (columnNumber < 0 || columnNumber >= Size) throw new ArgumentOutOfRangeException(nameof(columnNumber));
 
-            return new Line
+            return new Column
             (
+                columnNumber,
                 Squares[columnNumber, 0],
                 Squares[columnNumber, 1],
                 Squares[columnNumber, 2],
@@ -239,22 +251,5 @@ namespace Sudoku
                 Squares[columnNumber, 8]
             );
         }
-
-        internal void Write(TextWriter textWriter)
-        {
-            for (int row = 0; row < Size; row++)
-            {
-                for (int column = 0; column < Size; column++)
-                {
-                    if (column != 0) textWriter.Write("|");
-                    textWriter.Write(Squares[column, row]);
-                }
-                textWriter.WriteLine("");
-            }
-        }
-
-
-
-
     }
 }
