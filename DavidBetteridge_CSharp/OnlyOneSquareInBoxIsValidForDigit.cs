@@ -5,7 +5,7 @@ namespace Sudoku
 {
     public class OnlyOneSquareInBoxIsValidForDigit : ISolver
     {
-        public (bool success, Grid grid, Cell cell) Execute(Grid grid)
+        public SolverResult Execute(Grid grid)
         {
             foreach (var box in grid.Boxes())
             {
@@ -22,19 +22,20 @@ namespace Sudoku
                     {
                         case 0:
                             throw new Exception("Grid can't be solved");
+
                         case 1:
                             var (columnNumber, rowNumber) = possibleCells.First();
-                            return (true, 
-                                    grid.FillInSquare(columnNumber, rowNumber, digit),
-                                    new Cell(columnNumber, rowNumber));
+                            var newCell = new Cell(columnNumber, rowNumber);
+                            var updatedGrid = grid.FillInSquare(columnNumber, rowNumber, digit);
+                            return SolverResult.Success(updatedGrid, newCell, $"This is the only cell in this box where {digit} can go.");
+
                         default:
                             break;
                     }
                 }
             }
 
-
-            return (false, grid, null);
+            return SolverResult.Failed(grid);
         }
 
     }
