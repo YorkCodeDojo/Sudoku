@@ -2,9 +2,7 @@
 
 namespace Sudoku
 {
-    //Test cases
     //Advanced stuff
-    //isvalid
 
     class Program
     {

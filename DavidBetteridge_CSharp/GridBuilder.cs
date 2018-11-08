@@ -1,6 +1,6 @@
 ﻿namespace Sudoku
 {
-    class GridBuilder
+    public class GridBuilder
     {
         public static Grid Easy()
         {

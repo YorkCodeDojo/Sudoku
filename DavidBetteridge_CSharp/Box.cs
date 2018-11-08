@@ -5,8 +5,9 @@ namespace Sudoku
 {
     public class Box
     {
-        private readonly int _left;
-        private readonly int _top;
+        public int Left { get; }
+        public int Top { get; }
+
         private readonly char[,] _squares = new char[3, 3];
 
         public Box(int left, int top,
@@ -14,8 +15,8 @@ namespace Sudoku
                    char square4, char square5, char square6,
                    char square7, char square8, char square9)
         {
-            _left = left;
-            _top = top;
+            Left = left;
+            Top = top;
             _squares[0, 0] = square1;
             _squares[1, 0] = square2;
             _squares[2, 0] = square3;
@@ -42,7 +43,7 @@ namespace Sudoku
                 for (int row = 0; row < 3; row++)
                 {
                     if (_squares[column, row] == ' ')
-                        result.Add((column + _left, row + _top));
+                        result.Add((column + Left, row + Top));
                 }
             }
             return result;
