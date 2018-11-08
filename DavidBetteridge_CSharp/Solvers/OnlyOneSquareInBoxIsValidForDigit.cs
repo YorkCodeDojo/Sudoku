@@ -5,7 +5,7 @@ namespace Sudoku
 {
     public class OnlyOneSquareInBoxIsValidForDigit : ISolver
     {
-        public SolverResult Execute(Grid grid)
+        public SolverResult TryToSolveOneCell(Grid grid)
         {
             foreach (var box in grid.Boxes())
             {

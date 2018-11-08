@@ -2,9 +2,9 @@
 
 namespace Sudoku
 {
-    //Rules in order
     //Test cases
     //Advanced stuff
+    //isvalid
 
     class Program
     {
@@ -16,15 +16,13 @@ namespace Sudoku
             Console.Out.WriteLine("");
             Console.Out.WriteLine("");
 
-            //var s = new OnlyOneSquareInRowIsValidForDigit();
-            // var s = new OnlyOneDigitIsValidForSquare();
-            //var s = new OnlyOneSquareInColumnIsValidForDigit();
-            var s = new OnlyOneSquareInBoxIsValidForDigit();
+
+            var allSolvers = new AllSolvers();
 
             var success = true;
             while (success)
             {
-                var result = s.Execute(grid);
+                var result = allSolvers.TryToSolveOneCell(grid);
 
                 if (result.ProgressMade)
                 {
@@ -34,10 +32,10 @@ namespace Sudoku
                     Console.Out.WriteLine("");
                     Console.Out.WriteLine("");
                 }
+                success = result.ProgressMade;
             }
 
         }
-
 
     }
 }

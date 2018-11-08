@@ -2,6 +2,6 @@
 {
     public interface ISolver
     {
-        SolverResult Execute(Grid grid);
+        SolverResult TryToSolveOneCell(Grid grid);
     }
 }
