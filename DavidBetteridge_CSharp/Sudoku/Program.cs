@@ -2,8 +2,6 @@
 
 namespace Sudoku
 {
-    //Advanced stuff
-
     class Program
     {
         static void Main(string[] args)

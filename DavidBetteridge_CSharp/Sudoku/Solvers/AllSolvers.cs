@@ -4,6 +4,7 @@
     {
         private readonly ISolver[] solvers = new ISolver[]
         {
+                new OnlyOnePencilMarkInCell(),
                 new OnlyOneSquareInRowIsValidForDigit(),
                 new OnlyOneSquareInColumnIsValidForDigit(),
                 new OnlyOneSquareInBoxIsValidForDigit(),
