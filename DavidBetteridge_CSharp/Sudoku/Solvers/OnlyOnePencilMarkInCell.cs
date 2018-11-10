@@ -6,8 +6,8 @@
         {
             var pencilMarks = new PencilMarks(grid);
 
-            var candidateLines = new CandidateLines();
-            if (candidateLines.Evaluate(grid, pencilMarks))
+            var pencilMarkReducer = new DoublePairs();//  CandidateLines();
+            if (pencilMarkReducer.Evaluate(grid, pencilMarks))
             {
                 var (columnNumber, rowNumber, digit) = pencilMarks.TryFindSinglePencilMark();
                 if (columnNumber > -1)
