@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Sudoku
@@ -22,6 +23,17 @@ namespace Sudoku
                     }
                 }
             }
+        }
+
+        internal bool TryGetSinglePencilMark(int columnNumber, int rowNumber, out char digit)
+        {
+            var marksForCell = marks[columnNumber, rowNumber];
+            if (marksForCell == null || marksForCell.Count() != 1)
+                digit = ' ';
+            else
+                digit = marksForCell[0];
+
+            return (digit != ' ');
         }
 
         internal bool HasMark(int columnNumber, int rowNumber, char digit)

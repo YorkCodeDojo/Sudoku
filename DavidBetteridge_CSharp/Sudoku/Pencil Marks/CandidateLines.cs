@@ -1,11 +1,12 @@
-﻿namespace Sudoku
-{
-    public class CandidateLines
-    {
+﻿using System.Collections.Generic;
 
-        public bool Evaluate(Grid grid, PencilMarks pencilMarks)
+namespace Sudoku
+{
+    public class CandidateLines : IPencilMarkReducer
+    {
+        public List<string> Evaluate(Grid grid, PencilMarks pencilMarks)
         {
-            var marksRemoved = 0;
+            var result = new List<string>();
             foreach (var box in grid.Boxes())
             {
                 foreach (var digit in grid.AllowedDigits)
@@ -28,57 +29,60 @@
                         }
 
                         if (columns[0] > 0 && columns[1] == 0 && columns[2] == 0)
-                            marksRemoved += RemoveFromVerticallyAdjacentBoxes(box, 0, pencilMarks, digit);
+                            RemoveFromVerticallyAdjacentBoxes(box, 0, pencilMarks, digit, result);
 
                         if (columns[0] == 0 && columns[1] > 0 && columns[2] == 0)
-                            marksRemoved += RemoveFromVerticallyAdjacentBoxes(box, 1, pencilMarks, digit);
+                            RemoveFromVerticallyAdjacentBoxes(box, 1, pencilMarks, digit, result);
 
                         if (columns[0] == 0 && columns[1] == 0 && columns[2] > 0)
-                            marksRemoved += RemoveFromVerticallyAdjacentBoxes(box, 2, pencilMarks, digit);
+                            RemoveFromVerticallyAdjacentBoxes(box, 2, pencilMarks, digit, result);
 
 
                         if (rows[0] > 0 && rows[1] == 0 && rows[2] == 0)
-                            marksRemoved += RemoveFromHorizontallyAdjacentBoxes(box, 0, pencilMarks, digit);
+                            RemoveFromHorizontallyAdjacentBoxes(box, 0, pencilMarks, digit, result);
 
                         if (rows[0] == 0 && rows[1] > 0 && rows[2] == 0)
-                            marksRemoved += RemoveFromHorizontallyAdjacentBoxes(box, 1, pencilMarks, digit);
+                            RemoveFromHorizontallyAdjacentBoxes(box, 1, pencilMarks, digit, result);
 
                         if (rows[0] == 0 && rows[1] == 0 && rows[2] > 0)
-                            marksRemoved += RemoveFromHorizontallyAdjacentBoxes(box, 2, pencilMarks, digit);
+                            RemoveFromHorizontallyAdjacentBoxes(box, 2, pencilMarks, digit, result);
 
                     }
                 }
             }
 
-            return (marksRemoved > 0);
+            return result;
         }
 
-        private int RemoveFromVerticallyAdjacentBoxes(Box box, int columnOffset, PencilMarks pencilMarks, char digit)
+        private void RemoveFromVerticallyAdjacentBoxes(Box box, int columnOffset, PencilMarks pencilMarks, char digit, List<string> results)
         {
-            var marksRemoved = 0;
             var columnNumber = box.Left + columnOffset;
 
             for (int rowNumber = 0; rowNumber < box.Top; rowNumber++)
-                marksRemoved += pencilMarks.TryRubOutMark(columnNumber, rowNumber, digit);
+                RemoveMark(pencilMarks, digit, results, columnNumber, rowNumber);
 
             for (int rowNumber = box.Top + 3; rowNumber < 9; rowNumber++)
-                marksRemoved += pencilMarks.TryRubOutMark(columnNumber, rowNumber, digit);
-
-            return marksRemoved;
+                RemoveMark(pencilMarks, digit, results, columnNumber, rowNumber);
         }
 
-        private int RemoveFromHorizontallyAdjacentBoxes(Box box, int rowOffset, PencilMarks pencilMarks, char digit)
+        private static void RemoveMark(PencilMarks pencilMarks, char digit, List<string> results, int columnNumber, int rowNumber)
         {
-            var marksRemoved = 0;
+            if (pencilMarks.TryRubOutMark(columnNumber, rowNumber, digit) > 0)
+            {
+                results.Add($"Using CandidateLines removed pencilmark {digit} from {columnNumber},{rowNumber}");
+            };
+        }
+
+        private void RemoveFromHorizontallyAdjacentBoxes(Box box, int rowOffset, PencilMarks pencilMarks, char digit, List<string> results)
+        {
             var rowNumber = box.Top + rowOffset;
 
             for (int columnNumber = 0; columnNumber < box.Left; columnNumber++)
-                marksRemoved += pencilMarks.TryRubOutMark(columnNumber, rowNumber, digit);
+                RemoveMark(pencilMarks, digit, results, columnNumber, rowNumber);
 
             for (int columnNumber = box.Left + 3; columnNumber < 9; columnNumber++)
-                marksRemoved += pencilMarks.TryRubOutMark(columnNumber, rowNumber, digit);
+                RemoveMark(pencilMarks, digit, results, columnNumber, rowNumber);
 
-            return marksRemoved;
         }
     }
 }

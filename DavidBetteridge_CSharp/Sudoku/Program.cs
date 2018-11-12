@@ -14,11 +14,19 @@ namespace Sudoku
 
 
             var allSolvers = new AllSolvers();
+            var pencilMarkReducer = new PencilMarkReducer();
 
             var success = true;
             while (success)
             {
-                var result = allSolvers.TryToSolveOneCell(grid);
+                var pencilMarks = new PencilMarks(grid);
+                var reductions = pencilMarkReducer.Reduce(grid, pencilMarks);
+                foreach (var reduction in reductions)
+                {
+                    Console.Out.WriteLine(reduction);
+                }
+
+                var result = allSolvers.TryToSolveOneCell(grid, pencilMarks);
 
                 if (result.ProgressMade)
                 {
