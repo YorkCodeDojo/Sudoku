@@ -32,5 +32,14 @@ namespace Sudoku
         internal bool Contains(char digit) => _columns.Any(d => d == digit);
 
         internal bool DoesNotContain(char digit) => _columns.All(d => d != digit);
+
+        internal bool DoesNotContain(PencilMarks pencilMarks, char digit)
+        {
+            for (int columnNumber = 0; columnNumber < 9; columnNumber++)
+            {
+                if (pencilMarks.HasMark(columnNumber, RowNumber, digit)) return false;
+            }
+            return true;
+        }
     }
 }

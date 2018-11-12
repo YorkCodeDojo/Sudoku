@@ -66,7 +66,6 @@ namespace Sudoku
             }
             else
             {
-                if (columnNumber == 0 && rowNumber == 8) System.Diagnostics.Debugger.Break();
                 marksForCell.Remove(digit);
                 return 1;
             }

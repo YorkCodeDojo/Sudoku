@@ -2,7 +2,7 @@
 
 namespace Sudoku
 {
-    class PencilMarkReducer
+    public class PencilMarkReducer
     {
         private readonly IPencilMarkReducer[] reducers = new IPencilMarkReducer[]
         {
@@ -10,7 +10,7 @@ namespace Sudoku
                 new DoublePairs()
         };
 
-        internal List<string> Reduce(Grid grid, PencilMarks pencilMarks)
+        public List<string> Reduce(Grid grid, PencilMarks pencilMarks)
         {
             var results = new List<string>();
             var previousCount = -1;

@@ -61,5 +61,19 @@ namespace Sudoku
             _squares[2, 2] == digit;
 
         internal bool DoesNotContain(char digit) => !Contains(digit);
+
+        internal bool DoesNotContain(PencilMarks pencilMarks, char digit)
+        {
+
+            for (int column = 0; column < 3; column++)
+            {
+                for (int row = 0; row < 3; row++)
+                {
+                    if (pencilMarks.HasMark(column + Left, row + Top, digit)) return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

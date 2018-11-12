@@ -15,8 +15,7 @@ namespace Sudoku
                 foreach (var digit in digitsToFillIn)
                 {
                     var possibleRows = column.EmptyRows()
-                                              .Where(rowNumber => grid.Row(rowNumber).DoesNotContain(digit) &&
-                                                                  grid.Box(column.ColumnNumber, rowNumber).DoesNotContain(digit));
+                                             .Where(rowNumber => pencilMarks.HasMark(column.ColumnNumber, rowNumber, digit));
 
                     switch (possibleRows.Count())
                     {

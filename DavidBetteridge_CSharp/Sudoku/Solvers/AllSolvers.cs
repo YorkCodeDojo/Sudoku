@@ -4,9 +4,9 @@
     {
         private readonly ISolver[] solvers = new ISolver[]
         {
-                new OnlyOneSquareInRowIsValidForDigit(),
-                new OnlyOneSquareInColumnIsValidForDigit(),
                 new OnlyOneSquareInBoxIsValidForDigit(),
+                new OnlyOneSquareInColumnIsValidForDigit(),
+                new OnlyOneSquareInRowIsValidForDigit(),
                 new OnlyOneDigitIsValidForSquare()
         };
         public SolverResult TryToSolveOneCell(Grid grid, PencilMarks pencilMarks)
