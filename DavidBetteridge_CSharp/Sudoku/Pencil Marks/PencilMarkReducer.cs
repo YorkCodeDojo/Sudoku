@@ -6,6 +6,7 @@ namespace Sudoku
     {
         private readonly IPencilMarkReducer[] reducers = new IPencilMarkReducer[]
         {
+                new DisjointSubset(),
                 new CandidateLines(),
                 new DoublePairs()
         };

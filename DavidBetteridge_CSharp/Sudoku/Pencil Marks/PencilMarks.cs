@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace Sudoku
@@ -34,6 +35,15 @@ namespace Sudoku
                 digit = marksForCell[0];
 
             return (digit != ' ');
+        }
+
+        internal ImmutableArray<char> Marks(int columnNumber, int rowNumber)
+        {
+            var marksForCell = marks[columnNumber, rowNumber];
+            if (marksForCell == null)
+                return ImmutableArray<char>.Empty;
+            else
+                return marksForCell.ToImmutableArray();
         }
 
         internal bool HasMark(int columnNumber, int rowNumber, char digit)

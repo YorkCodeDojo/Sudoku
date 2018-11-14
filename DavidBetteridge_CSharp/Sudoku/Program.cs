@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Sudoku
 {
@@ -8,7 +9,6 @@ namespace Sudoku
         {
             var grid = GridBuilder.Easy();
             grid.Write(Console.Out);
-
             Console.Out.WriteLine("");
             Console.Out.WriteLine("");
 
@@ -37,6 +37,11 @@ namespace Sudoku
                     Console.Out.WriteLine("");
                 }
                 success = result.ProgressMade;
+            }
+
+            using (var tr = File.CreateText(@"c:\temp\completed.txt"))
+            {
+                grid.Write(tr);
             }
 
         }
