@@ -26,7 +26,7 @@ namespace Sudoku.Tests
                 success = result.ProgressMade;
             }
 
-            var notValidBecause = grid.Validate();
+            var notValidBecause = grid.ValidateCompleteBoard();
             Assert.True(string.IsNullOrWhiteSpace(notValidBecause));
 
         }

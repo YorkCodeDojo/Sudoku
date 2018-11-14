@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Sudoku
@@ -21,6 +22,8 @@ namespace Sudoku
             _rows[7] = row7;
             _rows[8] = row8;
         }
+
+        internal int CountNumberOf(char digit) => _rows.Count(d => d == digit);
 
         internal IEnumerable<int> EmptyRows()
         {

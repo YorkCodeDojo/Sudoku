@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Sudoku
@@ -21,6 +22,8 @@ namespace Sudoku
             _columns[7] = column7;
             _columns[8] = column8;
         }
+
+        internal int CountNumberOf(char digit) => _columns.Count(d => d == digit);
 
         internal IEnumerable<int> EmptyColumns()
         {

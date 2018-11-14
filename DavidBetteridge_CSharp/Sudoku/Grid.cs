@@ -23,13 +23,13 @@ namespace Sudoku
             Squares = (char[,])newGrid.Clone();
         }
 
-        internal Grid FillInSquare(int columnNumber, int rowNumber, char digit)
+        public Grid FillInSquare(int columnNumber, int rowNumber, char digit)
         {
             if (rowNumber < 0 || rowNumber >= Size) throw new ArgumentOutOfRangeException(nameof(rowNumber));
             if (columnNumber < 0 || columnNumber >= Size) throw new ArgumentOutOfRangeException(nameof(columnNumber));
 
             var newGrid = (char[,])Squares.Clone();
-            if (newGrid[columnNumber, rowNumber] != ' ') throw new Exception("Square is not empty");
+            if (newGrid[columnNumber, rowNumber] != ' ') throw new Exception($"Square {columnNumber},{rowNumber} is not empty");
             newGrid[columnNumber, rowNumber] = digit;
 
             return new Grid(newGrid);

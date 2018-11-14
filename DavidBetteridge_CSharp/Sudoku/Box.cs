@@ -34,6 +34,19 @@ namespace Sudoku
                 textWriter.WriteLine($"{_squares[0, row]}|{_squares[1, row]}|{_squares[2, row]}");
         }
 
+        internal int CountNumberOf(char digit)
+        {
+            var count = 0;
+            for (int row = 0; row < 3; row++)
+            {
+                for (int column = 0; column < 3; column++)
+                {
+                    if (_squares[column, row] == digit) count++;
+                }
+            }
+            return count;
+        }
+
         internal IEnumerable<(int columnNumber, int rowNumber)> EmptyCells()
         {
             var result = new List<(int column, int row)>();
